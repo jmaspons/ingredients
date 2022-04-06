@@ -408,8 +408,8 @@ feature_importance.multiinput <- function(x,
     })
     observed <- y[sampled_rows]
     # loss on the full model or when outcomes are permuted
-    loss_full <- loss_function(observed, predict_function(x, sampled_data))
-    loss_baseline <- loss_function(sample(observed), predict_function(x, sampled_data))
+    loss_full <- loss_function(observed, predict_function(x, sampled_data, ...), ...)
+    loss_baseline <- loss_function(sample(observed), predict_function(x, sampled_data, ...), ...)
     # loss upon dropping a single variable (or a single group)
     loss_featuresL <- mapply(function(d, vars, input_data) {
       loss_features <- sapply(vars, function(variables_set) {
@@ -433,8 +433,8 @@ feature_importance.multiinput <- function(x,
           stop("Dimensions for this kind of data is not implemented but should be easy. Contact with the developers.")
         }
         sampled_data[[input_data]] <- ndf
-        predicted <- predict_function(x, sampled_data)
-        loss_function(observed, predicted)
+        predicted <- predict_function(x, sampled_data, ...)
+        loss_function(observed, predicted, ...)
       })
     }, d=sampled_data, vars=variables, input_data=seq_along(sampled_data), SIMPLIFY=FALSE)
 
